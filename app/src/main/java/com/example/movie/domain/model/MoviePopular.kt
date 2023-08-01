@@ -1,13 +1,12 @@
 package com.example.movie.domain.model
 
+import com.google.gson.annotations.SerializedName
+
 data class MoviePopular(
     val id: Int,
-    val poster_path: String,
+    @SerializedName("poster_path")
+    val posterPath: String,
     val title: String,
-    val backdrop_path: String,
-    val overview: String,
-    val release_date: String,
-    val popularity: Float
 )
 
 data class MoviePopularResponse(

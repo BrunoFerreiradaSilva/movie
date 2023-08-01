@@ -15,7 +15,8 @@ data class MovieUiState(
    val listMovies: List<MoviePopular> = emptyList(),
    val showData: Boolean = false,
    val showError: Boolean = false,
-   val isLoading:Boolean = true
+   val isLoading:Boolean = true,
+   val isFavorite:Boolean = false
 )
 
 @HiltViewModel
@@ -46,4 +47,13 @@ class MovieListViewModel @Inject constructor(private val repository: MovieReposi
         }
 
     }
+
+    fun favoriteMovie(){
+
+    }
+
+    fun removeFavorite(){
+
+    }
+
 }
