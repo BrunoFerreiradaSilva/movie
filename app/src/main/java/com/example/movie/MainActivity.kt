@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.movie.navigation.Routes
+import com.example.movie.ui.screens.MovieListScreen
 import com.example.movie.ui.theme.MovieTheme
 
 class MainActivity : ComponentActivity() {
@@ -68,7 +69,7 @@ fun BottomNavGraph(navHostController: NavHostController) {
         composable(
             route = Routes.MovieList.route
         ) {
-
+            MovieListScreen(goToDetailsMovie = {})
         }
     }
 }
