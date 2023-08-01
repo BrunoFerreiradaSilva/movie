@@ -5,9 +5,8 @@ const val PATH_IMAGE = "https://image.tmdb.org/t/p/w342"
 
 //routes
 const val INITIAL_ROUTE = "initial_screen"
-const val INITIAL_TITLE = "Movie"
 const val FAVORITE_ROUTE = "favorite_screen"
-const val FAVORITE_TITLE = "Favorite"
+const val DETAIL_ROUTE = "detail_screen"
 
 //Intent
 

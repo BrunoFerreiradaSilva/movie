@@ -25,6 +25,7 @@ class MovieRepositoryImpl @Inject constructor(private val service: MovieService)
 
     override fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
         emit(DataState.Loading(loadingState = LoadingState.Loading))
+        delay(2000)
         try {
             val movieDetail = service.getMovieDetails(movieId)
             emit(DataState.Data(data = movieDetail))

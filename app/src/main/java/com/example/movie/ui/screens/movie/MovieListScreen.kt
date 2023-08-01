@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,8 +32,8 @@ import coil.compose.AsyncImage
 import com.example.movie.PATH_IMAGE
 import com.example.movie.R
 import com.example.movie.ui.components.FavoriteIcon
-import com.example.movie.ui.state.ErrorState
-import com.example.movie.ui.state.LoadingState
+import com.example.movie.ui.state.movie.ErrorState
+import com.example.movie.ui.state.movie.LoadingState
 
 
 @Composable
@@ -51,6 +52,7 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
     if (state.showData) {
         Column() {
             TopAppBar(
+                backgroundColor = MaterialTheme.colors.primary,
                 title = { androidx.compose.material.Text(text = "Movie") },
                 actions = {
                     IconButton(onClick = { goToFavorites() }) {
