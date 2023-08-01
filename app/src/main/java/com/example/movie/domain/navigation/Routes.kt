@@ -1,4 +1,4 @@
-package com.example.movie.navigation
+package com.example.movie.domain.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.valentinilk.shimmer.shimmer
 
-@Preview(showSystemUi = true)
+
 @Composable
 fun LoadingScreen() {
     LazyVerticalGrid(columns = GridCells.Fixed(2)) {
