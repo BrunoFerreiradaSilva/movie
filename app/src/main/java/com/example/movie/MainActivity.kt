@@ -15,8 +15,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -29,8 +31,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.movie.navigation.Routes
+import com.example.movie.ui.loading.LoadingScreen
 import com.example.movie.ui.screens.MovieListScreen
 import com.example.movie.ui.theme.MovieTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -65,11 +69,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun BottomNavGraph(navHostController: NavHostController) {
+    val isLoading = remember {
+        mutableStateOf(true)
+    }
     NavHost(navController = navHostController, startDestination = Routes.MovieList.route) {
         composable(
             route = Routes.MovieList.route
         ) {
-            MovieListScreen(goToDetailsMovie = {})
+            if (isLoading.value){
+                LoadingScreen()
+                LaunchedEffect(Unit) {
+                    delay(2000)
+                    isLoading.value = false
+                }
+            }else{
+                MovieListScreen(goToDetailsMovie = {})
+            }
         }
     }
 }
