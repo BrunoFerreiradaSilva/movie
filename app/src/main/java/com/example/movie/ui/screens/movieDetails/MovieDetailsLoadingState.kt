@@ -1,4 +1,4 @@
-package com.example.movie.ui.state.detail
+package com.example.movie.ui.screens.movieDetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,7 @@ import com.valentinilk.shimmer.shimmer
 
 @Preview(showSystemUi = true)
 @Composable
-fun DetailLoadingScreen() {
+fun MovieDetailsLoadingScreen(backgroundShimmer: Color = Color.LightGray.copy(alpha = 0.5f)) {
     Column {
         TopAppBar(
             backgroundColor = MaterialTheme.colors.primary,
@@ -42,7 +42,7 @@ fun DetailLoadingScreen() {
                     .padding(top = 4.dp)
                     .width(110.dp)
                     .size(24.dp)
-                    .background(Color.Gray))
+                    .background(backgroundShimmer))
             },
             actions = {
                 IconButton(onClick = {}) {
@@ -55,7 +55,7 @@ fun DetailLoadingScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .shimmer()
-                .background(Color.Gray)
+                .background(backgroundShimmer)
                 .size(214.dp)
         )
 
@@ -66,7 +66,7 @@ fun DetailLoadingScreen() {
             .padding(top = 4.dp)
             .width(110.dp)
             .size(24.dp)
-            .background(Color.Gray))
+            .background(backgroundShimmer))
 
 
         Spacer(modifier = Modifier
@@ -75,7 +75,7 @@ fun DetailLoadingScreen() {
             .padding(top = 8.dp)
             .width(170.dp)
             .size(24.dp)
-            .background(Color.Gray))
+            .background(backgroundShimmer))
 
 
         Spacer(modifier = Modifier
@@ -84,7 +84,7 @@ fun DetailLoadingScreen() {
             .padding(top = 8.dp)
             .width(200.dp)
             .size(24.dp)
-            .background(Color.Gray))
+            .background(backgroundShimmer))
 
 
         Spacer(modifier = Modifier
@@ -93,7 +93,7 @@ fun DetailLoadingScreen() {
             .padding(top = 10.dp)
             .fillMaxWidth()
             .size(120.dp)
-            .background(Color.Gray))
+            .background(backgroundShimmer))
 
     }
 }

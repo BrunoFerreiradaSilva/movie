@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.movie
+package com.example.movie.ui.screens.movies
 
 
 import androidx.compose.foundation.clickable
@@ -32,8 +32,6 @@ import coil.compose.AsyncImage
 import com.example.movie.PATH_IMAGE
 import com.example.movie.R
 import com.example.movie.ui.components.FavoriteIcon
-import com.example.movie.ui.state.movie.ErrorState
-import com.example.movie.ui.state.movie.LoadingState
 
 
 @Composable
@@ -64,14 +62,14 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                 }
             )
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-                items(state.listMovies) { item ->
+                items(state.data) { item ->
                     Card(
                         elevation = CardDefaults.cardElevation(4.dp),
                         modifier = Modifier
                             .padding(horizontal = 8.dp, vertical = 8.dp)
                     ) {
                         AsyncImage(
-                            model = PATH_IMAGE + item.posterPath,
+                            model = PATH_IMAGE + item.backdropPath,
                             contentDescription = "imageMovie",
                             modifier = Modifier
                                 .size(200.dp)
@@ -89,13 +87,14 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
-                            FavoriteIcon(isFavorite = state.isFavorite) {
-                                if (state.isFavorite) {
-                                    viewModel.removeFavorite()
-                                } else {
-                                    viewModel.favoriteMovie()
+
+                           FavoriteIcon(isFavorite = item.isFavorite) {
+                                if (item.isFavorite){
+                                    viewModel.removeFavorite(item.id)
+                                }else{
+                                    viewModel.favoriteMovie(item)
                                 }
-                            }
+                           }
                         }
                     }
                 }

@@ -1,18 +1,17 @@
-package com.example.movie.data.repository
+package com.example.movie.data.repository.movie
 
 import com.example.movie.data.service.MovieService
-import com.example.movie.domain.model.Genre
-import com.example.movie.domain.model.MovieDetail
-import com.example.movie.domain.model.MoviePopular
-import com.example.quizdynamox.domain.helpers.DataState
-import com.example.quizdynamox.domain.helpers.LoadingState
+import com.example.movie.data.response.MovieDetailsResponse
+import com.example.movie.domain.model.Movie
+import com.example.movie.domain.helpers.DataState
+import com.example.movie.domain.helpers.LoadingState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(private val service: MovieService) : MovieRepository {
-    override fun getMovie(): Flow<DataState<List<MoviePopular>>> = flow {
+    override fun getMovie(): Flow<DataState<List<Movie>>> = flow {
         emit(DataState.Loading(loadingState = LoadingState.Loading))
         delay(2000)
         try {
@@ -23,7 +22,7 @@ class MovieRepositoryImpl @Inject constructor(private val service: MovieService)
         }
     }
 
-    override fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
+    override fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetailsResponse>> = flow {
         emit(DataState.Loading(loadingState = LoadingState.Loading))
         delay(2000)
         try {

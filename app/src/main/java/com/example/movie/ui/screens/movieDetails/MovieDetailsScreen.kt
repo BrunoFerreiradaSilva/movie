@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.detail
+package com.example.movie.ui.screens.movieDetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,20 +22,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.movie.PATH_IMAGE
 import com.example.movie.ui.components.FavoriteIcon
-import com.example.movie.ui.state.detail.DetailErrorState
-import com.example.movie.ui.state.detail.DetailLoadingScreen
 
 @Composable
-fun DetailScreen(goToMovieList: () -> Unit) {
+fun MovieDetailsScreen(goToMovieList: () -> Unit) {
     val viewModel = hiltViewModel<DetailViewModel>()
     val state by viewModel.uiState.collectAsState()
 
     if (state.isLoading){
-        DetailLoadingScreen()
+        MovieDetailsLoadingScreen()
     }
 
     if (state.showError){
-        DetailErrorState()
+        MovieDetailsErrorState()
     }
 
     if (state.showData){

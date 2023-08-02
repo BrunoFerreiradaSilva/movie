@@ -5,9 +5,5 @@ data class Genre(
     val name:String
 )
 
-data class GenreResponse(
-    val genres:List<Genre>
-)
-
 
 

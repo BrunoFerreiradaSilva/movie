@@ -1,14 +1,14 @@
-package com.example.movie.ui.screens.detail
+package com.example.movie.ui.screens.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie.MOVIE_ID_INTENT
-import com.example.movie.data.repository.MovieRepository
+import com.example.movie.data.repository.movie.MovieRepository
 import com.example.movie.domain.helpers.convertBrData
 import com.example.movie.domain.model.Genre
-import com.example.movie.domain.model.MovieDetail
-import com.example.quizdynamox.domain.helpers.DataState
+import com.example.movie.data.response.MovieDetailsResponse
+import com.example.movie.domain.helpers.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,7 +54,7 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun getMovieDetail(state: DataState<MovieDetail>) {
+    private fun getMovieDetail(state: DataState<MovieDetailsResponse>) {
         when (state) {
             is DataState.Data -> {
                 viewModelScope.launch {

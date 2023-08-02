@@ -43,14 +43,14 @@ fun FavoriteIcon(isFavorite: Boolean, favoriteMovie: () -> Unit) {
 @Preview
 @Composable
 fun IsFavorite() {
-    FavoriteIcon(isFavorite = true) {
+  FavoriteIcon(isFavorite = false) {
 
-    }
+  }
 }
 @Preview
 @Composable
 fun NoFavorite() {
-    FavoriteIcon(isFavorite = false) {
+    FavoriteIcon(isFavorite = true) {
 
     }
 }

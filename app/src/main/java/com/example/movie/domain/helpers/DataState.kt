@@ -1,4 +1,4 @@
-package com.example.quizdynamox.domain.helpers
+package com.example.movie.domain.helpers
 
 sealed class DataState<out T> {
     data class Data<T>(
