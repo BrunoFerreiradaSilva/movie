@@ -112,7 +112,7 @@ fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {
                                         .padding(6.dp),
                                     textAlign = TextAlign.Start,
                                     fontSize = 14.sp,
-                                    maxLines = 8,
+                                    maxLines = 7,
                                     overflow = TextOverflow.Ellipsis
                                 )
                             }

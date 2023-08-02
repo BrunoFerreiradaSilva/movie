@@ -28,15 +28,15 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
     val viewModel = hiltViewModel<DetailViewModel>()
     val state by viewModel.uiState.collectAsState()
 
-    if (state.isLoading){
+    if (state.isLoading) {
         MovieDetailsLoadingScreen()
     }
 
-    if (state.showError){
+    if (state.showError) {
         MovieDetailsErrorState()
     }
 
-    if (state.showData){
+    if (state.showData) {
         Column {
             TopAppBar(
                 backgroundColor = MaterialTheme.colors.primary,
@@ -48,39 +48,60 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
                         )
                     }
                 },
-                title = { Text(text = state.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                title = {
+                    state.movieDetail?.title?.let {
+                        Text(
+                            text = it,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                },
                 actions = {
-                    IconButton(onClick = {}) {
-                        FavoriteIcon(isFavorite = state.isFavorite) { }
+                    FavoriteIcon(isFavorite = state.isFavorite) {
+                        if (state.isFavorite) {
+                            state.movieDetail?.id?.let { viewModel.removeFavorite(it) }
+                        } else {
+                            state.movieDetail?.let { viewModel.favoriteMovie(it) }
+                        }
                     }
                 }
             )
             AsyncImage(
-                model = PATH_IMAGE + state.backgroundPath,
+                model = PATH_IMAGE + state.movieDetail?.backgroundPath,
                 contentDescription = "image poster detail",
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Text(text = state.title, fontSize = 24.sp, modifier = Modifier.padding(horizontal = 8.dp))
+            state.movieDetail?.title?.let {
+                Text(
+                    text = it,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
 
 
             Text(
-                text = "Release Data: ${state.releaseDate}", modifier = Modifier.padding(
+                text = "Release Data: ${state.movieDetail?.releaseDate}",
+                modifier = Modifier.padding(
                     start = 8.dp
                 )
             )
 
             Row() {
-                state.genre.forEach { genre ->
+                state.movieDetail?.genre?.forEach { genre ->
                     Text(text = genre.name, modifier = Modifier.padding(start = 8.dp))
                 }
             }
 
-            Text(
-                text = state.overView,
-                Modifier.padding(8.dp),
-                fontSize = 16.sp
-            )
+            state.movieDetail?.overView?.let {
+                Text(
+                    text = it,
+                    Modifier.padding(8.dp),
+                    fontSize = 16.sp
+                )
+            }
         }
     }
 }
