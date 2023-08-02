@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoriteMovieRepository {
     suspend fun insertFavorite(movie: FavoriteMovieEntity)
-    fun getAllFavorites(): Flow<List<FavoriteMovieEntity>>
+    fun getAllFavorites(): Flow<List<FavoriteMovieEntity>?>
     suspend fun deleteFavorite(movieId:Int)
 }

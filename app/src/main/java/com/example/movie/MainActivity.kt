@@ -59,7 +59,7 @@ fun NavGraph(navHostController: NavHostController) {
         composable(
             route = Routes.Favorites.route
         ) {
-            FavoriteMoviesScreen()
+            FavoriteMoviesScreen(goToMovieList = { navHostController.navigate(Routes.MovieList.route) })
         }
     }
 }

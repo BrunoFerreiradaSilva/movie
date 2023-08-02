@@ -9,13 +9,13 @@ import java.util.*
 @Dao
 interface MovieDAO {
 
-    @Query("SELECT * FROM `favoriteentity` ORDER BY id")
+    @Query("SELECT * FROM `favoritemovieentity` ORDER BY id")
     fun getAllFavorites(): Flow<List<FavoriteMovieEntity>?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavorite(playerEntity: FavoriteMovieEntity)
 
-    @Query("DELETE FROM `favoriteentity` WHERE id =:movieId")
+    @Query("DELETE FROM `favoritemovieentity` WHERE id =:movieId")
     suspend fun deleteFavorite(movieId: Int)
 
 }

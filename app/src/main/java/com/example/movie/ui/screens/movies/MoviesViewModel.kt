@@ -95,7 +95,7 @@ class MovieListViewModel @Inject constructor(
     private fun updateFavorite() {
         viewModelScope.launch {
             localRepository.getAllFavorites().collect {favoriteList ->
-                val favoriteIds : List<Int> = favoriteList.map { it.id }
+                val favoriteIds : List<Int> = favoriteList?.map { it.id } ?: emptyList()
                 val updateList = _uiState.value.data.map {
                     MovieUiData(
                         id = it.id,

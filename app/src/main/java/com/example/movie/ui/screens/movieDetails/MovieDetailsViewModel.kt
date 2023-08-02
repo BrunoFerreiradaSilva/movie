@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie.MOVIE_ID_INTENT
 import com.example.movie.data.repository.movie.MovieRepository
-import com.example.movie.domain.helpers.convertBrData
-import com.example.movie.domain.model.Genre
 import com.example.movie.data.response.MovieDetailsResponse
 import com.example.movie.domain.helpers.DataState
+import com.example.movie.domain.model.Genre
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +20,7 @@ data class MovieDetailUiState(
     val isLoading: Boolean = true,
     val isFavorite: Boolean = false,
     val title: String,
-    val backgroundPath:String,
+    val backgroundPath: String,
     val genre: List<Genre>,
     val releaseDate: String,
     val overView: String
@@ -66,7 +65,7 @@ class DetailViewModel @Inject constructor(
                         showData = true,
                         title = state.data.title,
                         genre = state.data.genres,
-                        releaseDate = state.data.releaseDate.convertBrData(),
+                        releaseDate = state.data.releaseDate,
                         overView = state.data.overview,
                         backgroundPath = state.data.backdropPath
                     )
