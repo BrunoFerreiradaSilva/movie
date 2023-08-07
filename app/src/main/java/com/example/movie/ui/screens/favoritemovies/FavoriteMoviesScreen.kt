@@ -117,14 +117,11 @@ fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {
                                 )
                             }
                         }
-
                     }
                 }
             }
         }
     }
-
-
 }
 
 @Preview(showSystemUi = true)

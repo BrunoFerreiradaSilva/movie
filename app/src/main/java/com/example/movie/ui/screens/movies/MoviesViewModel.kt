@@ -92,6 +92,12 @@ class MovieListViewModel @Inject constructor(
 
     }
 
+    fun retry(){
+        viewModelScope.launch {
+            remoteRepository.getMovie().collect(::getMovie)
+        }
+    }
+
     private fun updateFavorite() {
         viewModelScope.launch {
             localRepository.getAllFavorites().collect {favoriteList ->

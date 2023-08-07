@@ -44,7 +44,7 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
     }
 
     if (state.showError) {
-        ErrorState()
+        MoviesErrorState(viewModel::retry)
     }
 
     if (state.showData) {
