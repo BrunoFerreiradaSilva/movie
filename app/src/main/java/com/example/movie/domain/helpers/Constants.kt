@@ -1,4 +1,4 @@
-package com.example.movie
+package com.example.movie.domain.helpers
 
 const val BASE_URL = "https://api.themoviedb.org/3/"
 const val PATH_IMAGE = "https://image.tmdb.org/t/p/w342"

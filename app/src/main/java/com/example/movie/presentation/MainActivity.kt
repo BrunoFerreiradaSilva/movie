@@ -1,4 +1,4 @@
-package com.example.movie
+package com.example.movie.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -15,10 +15,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.movie.domain.navigation.Routes
-import com.example.movie.ui.screens.movieDetails.MovieDetailsScreen
-import com.example.movie.ui.screens.favoritemovies.FavoriteMoviesScreen
-import com.example.movie.ui.screens.movies.MovieListScreen
-import com.example.movie.ui.theme.MovieTheme
+import com.example.movie.presentation.ui.screens.movieDetails.MovieDetailsScreen
+import com.example.movie.presentation.ui.screens.favoritemovies.FavoriteMoviesScreen
+import com.example.movie.presentation.ui.screens.movies.MovieListScreen
+import com.example.movie.presentation.ui.theme.MovieTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

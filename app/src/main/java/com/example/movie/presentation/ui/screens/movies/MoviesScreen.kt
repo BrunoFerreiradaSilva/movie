@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.movies
+package com.example.movie.presentation.ui.screens.movies
 
 
 import androidx.compose.foundation.Image
@@ -42,14 +42,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.movie.PATH_IMAGE
+import com.example.movie.domain.helpers.PATH_IMAGE
 import com.example.movie.R
-import com.example.movie.ui.components.FavoriteIcon
+import com.example.movie.presentation.ui.components.FavoriteIcon
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 

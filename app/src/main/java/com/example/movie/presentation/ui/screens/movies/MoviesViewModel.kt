@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.movies
+package com.example.movie.presentation.ui.screens.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +7,7 @@ import com.example.movie.data.repository.favorite.FavoriteMovieRepository
 import com.example.movie.data.repository.movie.MovieRepository
 import com.example.movie.domain.helpers.DataState
 import com.example.movie.domain.model.Movie
+import com.example.movie.domain.usecase.FavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +21,8 @@ data class MovieUiState(
     val isLoading: Boolean = true,
     val pageMovie: Int = 1,
     val errorNextPage: Boolean = false,
-    val loadingNextPage: Boolean = false
+    val loadingNextPage: Boolean = false,
+    val isFavorite: Boolean = false
 )
 
 data class MovieUiData(
@@ -35,7 +37,7 @@ data class MovieUiData(
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
     private val remoteRepository: MovieRepository,
-    private val localRepository: FavoriteMovieRepository
+    private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
 
     private val _uiState: MutableStateFlow<MovieUiState> =
@@ -61,7 +63,7 @@ class MovieListViewModel @Inject constructor(
                         releaseDate = it.releaseDate,
                         overview = it.overview,
                         backdropPath = it.posterPath,
-                        isFavorite = false
+                        isFavorite = _uiState.value.isFavorite
                     )
                 }
 
@@ -106,7 +108,6 @@ class MovieListViewModel @Inject constructor(
             val updateList = mutableListOf<MovieUiData>()
             val currentList = _uiState.value.data
             val nexPage = _uiState.value.pageMovie + 1
-            val n =1
 
             remoteRepository.getMovie(nexPage).collect { state ->
                 when (state) {
@@ -119,7 +120,7 @@ class MovieListViewModel @Inject constructor(
                                 releaseDate = it.releaseDate,
                                 overview = it.overview,
                                 backdropPath = it.posterPath,
-                                isFavorite = false
+                                isFavorite = _uiState.value.isFavorite
                             )
                         }
 
@@ -150,40 +151,41 @@ class MovieListViewModel @Inject constructor(
 
     private fun updateFavorite() {
         viewModelScope.launch {
-            localRepository.getAllFavorites().collect { favoriteList ->
-                val favoriteIds: List<Int> = favoriteList.map { it.id } ?: emptyList()
-                val updateList = _uiState.value.data.map {
+            favoriteUseCase.updateFavoriteMovie().collect { favoriteIds ->
+                val movieList = _uiState.value.data.map {
+                    val isFavorite = favoriteIds.contains(it.id)
                     MovieUiData(
                         id = it.id,
                         title = it.title,
                         backdropPath = it.backdropPath,
                         overview = it.overview,
                         releaseDate = it.releaseDate,
-                        isFavorite = favoriteIds.contains(it.id)
+                        isFavorite = isFavorite
                     )
                 }
-                _uiState.value = _uiState.value.copy(data = updateList)
+                _uiState.value = _uiState.value.copy(data = movieList)
             }
+
         }
     }
 
-    fun favoriteMovie(movie: MovieUiData) {
+    fun favoriteMovie(movieData: MovieUiData) {
         viewModelScope.launch {
-            val favorite = FavoriteMovieEntity(
-                id = movie.id,
-                title = movie.title,
-                overview = movie.overview,
-                releaseDate = movie.releaseDate,
-                backdropPath = movie.backdropPath,
-                isFavorite = true
+            val movie = FavoriteMovieEntity(
+                id = movieData.id,
+                title = movieData.title,
+                releaseDate = movieData.releaseDate,
+                overview = movieData.overview,
+                backdropPath = movieData.backdropPath,
+                isFavorite = movieData.isFavorite
             )
-            localRepository.insertFavorite(favorite)
+            favoriteUseCase.favoriteMovie(movie)
         }
     }
 
     fun removeFavorite(movieId: Int) {
         viewModelScope.launch {
-            localRepository.deleteFavorite(movieId)
+            favoriteUseCase.deleteFavorite(movieId)
         }
     }
 

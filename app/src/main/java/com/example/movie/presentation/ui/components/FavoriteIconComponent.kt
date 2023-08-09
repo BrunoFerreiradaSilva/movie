@@ -1,4 +1,4 @@
-package com.example.movie.ui.components
+package com.example.movie.presentation.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding

@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.favoritemovies
+package com.example.movie.presentation.ui.screens.favoritemovies
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

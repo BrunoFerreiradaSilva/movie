@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.favoritemovies
+package com.example.movie.presentation.ui.screens.favoritemovies
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.movie.PATH_IMAGE
+import com.example.movie.domain.helpers.PATH_IMAGE
 
 @Composable
 fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {

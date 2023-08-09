@@ -1,4 +1,4 @@
-package com.example.movie.ui.screens.movies
+package com.example.movie.presentation.ui.screens.movies
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

@@ -1,8 +1,8 @@
 package com.example.movie.domain.navigation
 
-import com.example.movie.DETAIL_ROUTE
-import com.example.movie.FAVORITE_ROUTE
-import com.example.movie.INITIAL_ROUTE
+import com.example.movie.domain.helpers.DETAIL_ROUTE
+import com.example.movie.domain.helpers.FAVORITE_ROUTE
+import com.example.movie.domain.helpers.INITIAL_ROUTE
 
 sealed class Routes(val route: String) {
     object MovieList : Routes(INITIAL_ROUTE)

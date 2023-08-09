@@ -1,7 +1,7 @@
 package com.example.movie.data.di
 
 import android.content.Context
-import com.example.movie.BASE_URL
+import com.example.movie.domain.helpers.BASE_URL
 import com.example.movie.data.database.MovieDAO
 import com.example.movie.data.database.MovieDataBase
 import com.example.movie.data.repository.favorite.FavoriteMovieRepository

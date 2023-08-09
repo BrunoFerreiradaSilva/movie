@@ -1,16 +1,16 @@
-package com.example.movie.ui.screens.movieDetails
+package com.example.movie.presentation.ui.screens.movieDetails
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie.MOVIE_ID_INTENT
 import com.example.movie.data.entity.FavoriteMovieEntity
-import com.example.movie.data.repository.favorite.FavoriteMovieRepository
 import com.example.movie.data.repository.movie.MovieRepository
 import com.example.movie.data.response.MovieDetailsResponse
 import com.example.movie.domain.helpers.DataState
+import com.example.movie.domain.helpers.MOVIE_ID_INTENT
 import com.example.movie.domain.model.Genre
-import com.example.movie.ui.screens.movies.MovieUiData
+import com.example.movie.domain.usecase.FavoriteUseCase
+import com.example.movie.presentation.ui.screens.movies.MovieUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,7 +39,7 @@ data class MovieDetailUiData(
 class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val remoteRepository: MovieRepository,
-    private val localRepository: FavoriteMovieRepository
+    private val useCase: FavoriteUseCase
 ) : ViewModel() {
 
     private val movieId: Int = checkNotNull(savedStateHandle[MOVIE_ID_INTENT])
@@ -102,34 +102,31 @@ class DetailViewModel @Inject constructor(
 
     private fun updateFavorite() {
         viewModelScope.launch {
-            localRepository.getAllFavorites().collect { favoriteList ->
-                val favoriteIds: List<Int> = favoriteList?.map { it.id } ?: emptyList()
-                _uiState.value =
-                    _uiState.value.copy(isFavorite = favoriteIds.contains(_uiState.value.movieDetail?.id))
+            useCase.updateFavoriteMovie().collect { favoritesIds ->
+                val isFavorite = favoritesIds.contains(_uiState.value.movieDetail?.id)
+                _uiState.value = _uiState.value.copy(isFavorite = isFavorite)
             }
         }
     }
 
-
-    fun favoriteMovie(movie: MovieDetailUiData) {
+    fun favoriteMovie(movieDetail: MovieDetailUiData) {
         viewModelScope.launch {
-            val favorite = FavoriteMovieEntity(
-                id = movie.id,
-                title = movie.title,
-                overview = movie.overView,
-                releaseDate = movie.releaseDate,
-                backdropPath = movie.backgroundPath,
-                isFavorite = true
+            val movie = FavoriteMovieEntity(
+                id = movieDetail.id,
+                title = movieDetail.title,
+                releaseDate = movieDetail.releaseDate,
+                overview = movieDetail.overView,
+                backdropPath = movieDetail.backgroundPath,
+                isFavorite = movieDetail.isFavorite
             )
-            localRepository.insertFavorite(favorite)
+            useCase.favoriteMovie(movie = movie)
         }
     }
 
     fun removeFavorite(movieId: Int) {
         viewModelScope.launch {
-            localRepository.deleteFavorite(movieId)
+            useCase.deleteFavorite(movieId)
         }
     }
-
 }
 
