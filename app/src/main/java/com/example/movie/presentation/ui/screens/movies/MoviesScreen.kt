@@ -1,6 +1,7 @@
 package com.example.movie.presentation.ui.screens.movies
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -111,7 +114,7 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                                 overflow = TextOverflow.Ellipsis
                             )
 
-                            FavoriteIcon(isFavorite = item.isFavorite) {
+                            FavoriteIcon(isFavorite= item.isFavorite) {
                                 if (item.isFavorite) {
                                     viewModel.removeFavorite(item.id)
                                 } else {
