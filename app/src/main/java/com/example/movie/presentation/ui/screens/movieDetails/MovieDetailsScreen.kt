@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,7 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
     if (state.showData) {
         Column {
             TopAppBar(
-                backgroundColor = MaterialTheme.colors.primary,
+                backgroundColor = colorResource(id = R.color.purple_500),
                 navigationIcon = {
                     IconButton(onClick = { goToMovieList() }) {
                         Icon(

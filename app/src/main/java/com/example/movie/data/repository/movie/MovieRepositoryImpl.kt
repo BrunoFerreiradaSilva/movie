@@ -45,7 +45,8 @@ class MovieRepositoryImpl @Inject constructor(private val service: MovieService)
                 overview = movieDetailDto.overview,
                 backdropPath = movieDetailDto.backdropPath,
                 releaseDate = changeDataForBr(movieDetailDto.releaseDate),
-                genres = movieDetailDto.genres
+                genres = movieDetailDto.genres,
+                posterPath = movieDetailDto.posterPath
             )
             emit(DataState.Data(data = movieDetail))
         } catch (error: Exception) {

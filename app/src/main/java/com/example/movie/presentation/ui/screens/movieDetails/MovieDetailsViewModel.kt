@@ -28,6 +28,7 @@ data class MovieDetailUiData(
     val id: Int,
     val title: String,
     val backgroundPath: String,
+    val posterPath: String,
     val genre: List<Genre>,
     val releaseDate: String,
     val overView: String,
@@ -72,6 +73,7 @@ class DetailViewModel @Inject constructor(
                         releaseDate = state.data.releaseDate,
                         overView = state.data.overview,
                         backgroundPath = state.data.backdropPath,
+                        posterPath = state.data.posterPath,
                         id = movieId,
                         isFavorite = _uiState.value.isFavorite
                     )

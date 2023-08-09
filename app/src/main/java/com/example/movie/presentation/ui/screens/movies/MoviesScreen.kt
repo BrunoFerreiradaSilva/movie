@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -69,10 +70,10 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
     }
 
     if (state.showData) {
-        Column() {
+        Column {
             TopAppBar(
-                backgroundColor = MaterialTheme.colors.primary,
-                title = { androidx.compose.material.Text(text = stringResource(id = R.string.movie)) },
+                backgroundColor = colorResource(id = R.color.purple_500),
+                title = { Text(text = stringResource(id = R.string.movie), color = colorResource(id = R.color.black)) },
                 actions = {
                     IconButton(onClick = { goToFavorites() }) {
                         Icon(

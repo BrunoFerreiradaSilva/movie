@@ -8,6 +8,8 @@ data class MovieDetailsResponse(
     val title: String,
     @SerializedName("backdrop_path")
     val backdropPath: String,
+    @SerializedName("poster_path")
+    val posterPath: String,
     val overview: String,
     @SerializedName("release_date")
     val releaseDate: String,

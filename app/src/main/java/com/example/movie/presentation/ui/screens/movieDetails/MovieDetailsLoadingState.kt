@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +29,7 @@ import com.valentinilk.shimmer.shimmer
 fun MovieDetailsLoadingScreen(backgroundShimmer: Color = Color.LightGray.copy(alpha = 0.5f)) {
     Column {
         TopAppBar(
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = colorResource(id = R.color.purple_500),
             navigationIcon = {
                 IconButton(onClick = { }) {
                     Icon(

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +35,7 @@ import com.example.movie.R
 fun MovieDetailsErrorState(action: () -> Unit) {
     Column {
         TopAppBar(
-            backgroundColor = MaterialTheme.colors.primary,
+            backgroundColor = colorResource(id = R.color.purple_500),
             navigationIcon = {
                 IconButton(onClick = { }) {
                     Icon(

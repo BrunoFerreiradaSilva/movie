@@ -41,7 +41,7 @@ class FavoriteUseCase @Inject constructor(private val repository: FavoriteMovieR
             title = movieDetail.title,
             releaseDate = movieDetail.releaseDate,
             overview = movieDetail.overView,
-            backdropPath = movieDetail.backgroundPath,
+            backdropPath = movieDetail.posterPath,
             isFavorite = movieDetail.isFavorite
         )
         repository.insertFavorite(movie)
