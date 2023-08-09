@@ -1,9 +1,5 @@
 package com.example.movie.presentation.ui.screens.movieDetails
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,87 +31,86 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
     val viewModel = hiltViewModel<DetailViewModel>()
     val state by viewModel.uiState.collectAsState()
 
-    MovieDetailsLoadingScreen(stateAnimation = state.isLoading)
+    if (state.isLoading) {
+        MovieDetailsLoadingScreen()
+    }
 
     if (state.showError) {
         MovieDetailsErrorState(viewModel::retry)
     }
 
-
-    Column {
-        TopAppBar(
-            backgroundColor = colorResource(id = R.color.purple_500),
-            navigationIcon = {
-                IconButton(onClick = { goToMovieList() }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = stringResource(id = R.string.content_back_for_movie_list),
-                        tint = Color.White
-                    )
-                }
-            },
-            title = {
-                state.movieDetail?.title?.let {
-                    Text(
-                        text = it,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = Color.White
-                    )
-                }
-            },
-            actions = {
-                FavoriteIcon(isFavorite = state.isFavorite) {
-                    if (state.isFavorite) {
-                        state.movieDetail?.id?.let { viewModel.removeFavorite(it) }
-                    } else {
-                        state.movieDetail?.let { viewModel.favoriteMovie(it) }
-                    }
-                }
-            }
-        )
-
-        AnimatedVisibility(visible = state.showData, enter = fadeIn(), exit = fadeOut()) {
-            Column() {
-                AsyncImage(
-                    model = PATH_IMAGE + state.movieDetail?.backgroundPath,
-                    contentDescription = stringResource(id = R.string.content_image_detail),
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                state.movieDetail?.title?.let {
-                    Text(
-                        text = it,
-                        fontSize = 24.sp,
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
-                }
-
-                state.movieDetail?.let {
-                    Text(
-                        text = stringResource(id = R.string.release_data_movie, it.releaseDate),
-                        modifier = Modifier.padding(
-                            start = 8.dp
+    if (state.showData) {
+        Column {
+            TopAppBar(
+                backgroundColor = colorResource(id = R.color.purple_500),
+                navigationIcon = {
+                    IconButton(onClick = { goToMovieList() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.content_back_for_movie_list),
+                            tint = Color.White
                         )
-                    )
-                }
-
-
-                Row() {
-                    state.movieDetail?.genre?.forEach { genre ->
-                        Text(text = genre.name, modifier = Modifier.padding(start = 8.dp))
+                    }
+                },
+                title = {
+                    state.movieDetail?.title?.let {
+                        Text(
+                            text = it,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.White
+                        )
+                    }
+                },
+                actions = {
+                    FavoriteIcon(isFavorite = state.isFavorite) {
+                        if (state.isFavorite) {
+                            state.movieDetail?.id?.let { viewModel.removeFavorite(it) }
+                        } else {
+                            state.movieDetail?.let { viewModel.favoriteMovie(it) }
+                        }
                     }
                 }
+            )
 
-                state.movieDetail?.overView?.let {
-                    Text(
-                        text = it,
-                        Modifier.padding(8.dp),
-                        fontSize = 16.sp
+            AsyncImage(
+                model = PATH_IMAGE + state.movieDetail?.backgroundPath,
+                contentDescription = stringResource(id = R.string.content_image_detail),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            state.movieDetail?.title?.let {
+                Text(
+                    text = it,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+            }
+
+            state.movieDetail?.let {
+                Text(
+                    text = stringResource(id = R.string.release_data_movie, it.releaseDate),
+                    modifier = Modifier.padding(
+                        start = 8.dp
                     )
+                )
+            }
+
+
+            Row {
+                state.movieDetail?.genre?.forEach { genre ->
+                    Text(text = genre.name, modifier = Modifier.padding(start = 8.dp))
                 }
             }
 
+            state.movieDetail?.overView?.let {
+                Text(
+                    text = it,
+                    Modifier.padding(8.dp),
+                    fontSize = 16.sp
+                )
+            }
         }
+
     }
 }

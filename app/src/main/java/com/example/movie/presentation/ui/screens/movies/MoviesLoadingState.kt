@@ -1,10 +1,10 @@
-
 package com.example.movie.presentation.ui.screens.movies
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,7 +31,7 @@ import com.valentinilk.shimmer.shimmer
 
 
 @Composable
-fun LoadingState(stateAnimation:Boolean) {
+fun LoadingState(stateAnimation: Boolean) {
     Column {
         TopAppBar(
             backgroundColor = colorResource(id = R.color.purple_500),
@@ -51,7 +51,14 @@ fun LoadingState(stateAnimation:Boolean) {
                 }
             }
         )
-        AnimatedVisibility(visible = stateAnimation, exit = fadeOut()) {
+        AnimatedVisibility(
+            visible = stateAnimation,
+            exit = fadeOut(
+                animationSpec = keyframes {
+                    this.durationMillis = 300
+                }
+            )
+        ) {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 (0..5).toList().forEach { _ ->
                     item {

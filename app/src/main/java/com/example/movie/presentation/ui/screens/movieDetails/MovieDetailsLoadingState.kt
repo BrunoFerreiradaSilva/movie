@@ -29,8 +29,7 @@ import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun MovieDetailsLoadingScreen(
-    backgroundShimmer: Color = Color.LightGray.copy(alpha = 0.5f),
-    stateAnimation: Boolean
+    backgroundShimmer: Color = Color.LightGray.copy(alpha = 0.5f)
 ) {
     Column {
         TopAppBar(
@@ -65,72 +64,63 @@ fun MovieDetailsLoadingScreen(
                 }
             }
         )
-    }
 
-    AnimatedVisibility(visible = stateAnimation, enter = slideInHorizontally(), exit = slideOutHorizontally()) {
-        Column {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .shimmer()
-                    .background(backgroundShimmer)
-                    .size(214.dp)
-            )
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shimmer()
+                .background(backgroundShimmer)
+                .size(214.dp)
+        )
 
 
-            Spacer(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .shimmer()
-                    .padding(top = 4.dp)
-                    .width(110.dp)
-                    .size(24.dp)
-                    .background(backgroundShimmer)
-            )
+        Spacer(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .shimmer()
+                .padding(top = 4.dp)
+                .width(110.dp)
+                .size(24.dp)
+                .background(backgroundShimmer)
+        )
 
 
-            Spacer(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .shimmer()
-                    .padding(top = 8.dp)
-                    .width(170.dp)
-                    .size(24.dp)
-                    .background(backgroundShimmer)
-            )
+        Spacer(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .shimmer()
+                .padding(top = 8.dp)
+                .width(170.dp)
+                .size(24.dp)
+                .background(backgroundShimmer)
+        )
 
-            Spacer(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .shimmer()
-                    .padding(top = 8.dp)
-                    .width(200.dp)
-                    .size(24.dp)
-                    .background(backgroundShimmer)
-            )
+        Spacer(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .shimmer()
+                .padding(top = 8.dp)
+                .width(200.dp)
+                .size(24.dp)
+                .background(backgroundShimmer)
+        )
 
 
-            Spacer(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .shimmer()
-                    .padding(top = 10.dp)
-                    .fillMaxWidth()
-                    .size(120.dp)
-                    .background(backgroundShimmer)
-            )
-        }
+        Spacer(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .shimmer()
+                .padding(top = 10.dp)
+                .fillMaxWidth()
+                .size(120.dp)
+                .background(backgroundShimmer)
+        )
     }
 }
+
 
 @Preview
 @Composable
 fun LoadingStateTrue() {
-    MovieDetailsLoadingScreen(stateAnimation = true)
-}
-
-@Preview
-@Composable
-fun LoadingStateFalse() {
-    MovieDetailsLoadingScreen(stateAnimation = false)
+    MovieDetailsLoadingScreen()
 }

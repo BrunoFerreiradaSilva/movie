@@ -2,6 +2,9 @@ package com.example.movie.presentation.ui.screens.movies
 
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideOutHorizontally
@@ -84,7 +87,13 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                 }
             }
         )
-        AnimatedVisibility(visible = state.showData, enter = fadeIn(), exit = slideOutHorizontally()) {
+        AnimatedVisibility(
+            visible = state.showData, enter = fadeIn(
+                animationSpec = keyframes {
+                    this.durationMillis = 300
+                }
+            )
+        ) {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 items(state.data) { item ->
                     Card(
