@@ -1,5 +1,6 @@
 package com.example.movie.ui.screens.favoritemovies
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,15 +15,22 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ShapeDefaults
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,34 +44,20 @@ import com.example.movie.PATH_IMAGE
 fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {
     val viewModel = hiltViewModel<FavoriteMoviesViewModel>()
     val state by viewModel.uiState.collectAsState()
+    val query = remember { mutableStateOf(TextFieldValue("")) }
 
-    if (state.favoriteMovie.isEmpty()){
-        EmptyFavoriteMovies{
-            goToMovieList()
-        }
-    }else{
-        Column {
-            TopAppBar(
-                backgroundColor = MaterialTheme.colors.primary,
-                navigationIcon = {
-                    IconButton(onClick = { goToMovieList() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back for movie list"
-                        )
-                    }
-                },
-                title = { Text(text = "Favorites") },
-                actions = {
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search favorite movie"
-                        )
-                    }
-                }
-            )
-
+    Column {
+        AppBarTransform(
+            goToMovieList = { goToMovieList() },
+            openSearchField = { viewModel.openSearchField() },
+            state = state.showSearch,
+            textValue = query,
+            searchMovie = { viewModel.searchMovie(query.value.text) },
+            favoriteIsNotEmpty = state.favoriteMovie.isNotEmpty()
+        )
+        if (state.favoriteMovie.isEmpty()) {
+            EmptyFavoriteMovies(state.messageError)
+        } else {
             LazyColumn {
                 items(state.favoriteMovie) { item ->
                     Card(
@@ -73,7 +67,6 @@ fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp, vertical = 8.dp),
                     ) {
-
                         Row(Modifier.fillMaxSize()) {
                             AsyncImage(
                                 model = PATH_IMAGE + item.backgroundPath,
@@ -121,6 +114,69 @@ fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun AppBarTransform(
+    goToMovieList: () -> Unit,
+    openSearchField: () -> Unit,
+    state: Boolean,
+    textValue: MutableState<TextFieldValue>,
+    searchMovie: (String) -> Unit,
+    favoriteIsNotEmpty: Boolean
+) {
+    if (!state) {
+        TopAppBar(
+            backgroundColor = MaterialTheme.colors.primary,
+            navigationIcon = {
+                IconButton(onClick = { goToMovieList() }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBack,
+                        contentDescription = "Back for movie list"
+                    )
+                }
+            },
+            title = { Text(text = "Favorites") },
+            actions = {
+                IconButton(onClick = { if (favoriteIsNotEmpty) openSearchField() }) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search favorite movie",
+                    )
+                }
+            }
+        )
+    } else {
+        TopAppBar(
+            title = { },
+            backgroundColor = MaterialTheme.colors.primary,
+            actions = {
+                IconButton(onClick = { openSearchField() }) {
+                    TextField(value = textValue.value, onValueChange = {
+                        textValue.value = it
+                        searchMovie(textValue.value.text)
+                    }, modifier = Modifier.fillMaxWidth(),
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Close",
+                                tint = Color.Black,
+                                modifier = Modifier.clickable {
+                                    if (textValue.value.text.isNotEmpty()) {
+                                        textValue.value = textValue.value.copy("")
+                                        searchMovie(textValue.value.text)
+                                    } else {
+                                        openSearchField()
+                                    }
+                                }
+                            )
+                        },
+                        placeholder = { Text(text = "Search", color = Color.Black) }
+                    )
+                }
+            }
+        )
     }
 }
 

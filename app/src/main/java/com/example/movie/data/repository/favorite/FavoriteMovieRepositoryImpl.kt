@@ -12,7 +12,7 @@ class FavoriteMovieRepositoryImpl @Inject constructor(private val dao: MovieDAO)
         dao.insertFavorite(movie)
     }
 
-    override fun getAllFavorites(): Flow<List<FavoriteMovieEntity>?> = flow {
+    override fun getAllFavorites(): Flow<List<FavoriteMovieEntity>> = flow {
         dao.getAllFavorites().collect { favoriteMoviesList ->
             emit(favoriteMoviesList)
         }
@@ -22,5 +22,10 @@ class FavoriteMovieRepositoryImpl @Inject constructor(private val dao: MovieDAO)
         dao.deleteFavorite(movieId)
     }
 
+    override fun searchMovie(titleMovie: String): Flow<List<FavoriteMovieEntity>> = flow{
+        dao.searchMovie(titleMovie).collect { foundedMovie ->
+            emit(foundedMovie)
+        }
+    }
 
 }

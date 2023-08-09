@@ -6,6 +6,6 @@ import com.example.movie.domain.helpers.DataState
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    fun getMovie(): Flow<DataState<List<Movie>>>
+    fun getMovie(page:Int): Flow<DataState<List<Movie>>>
     fun getMovieDetail(movieId: Int): Flow<DataState<MovieDetailsResponse>>
 }

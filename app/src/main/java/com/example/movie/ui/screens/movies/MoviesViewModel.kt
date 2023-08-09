@@ -2,11 +2,11 @@ package com.example.movie.ui.screens.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie.data.entity.FavoriteMovieEntity
 import com.example.movie.data.repository.favorite.FavoriteMovieRepository
 import com.example.movie.data.repository.movie.MovieRepository
-import com.example.movie.data.entity.FavoriteMovieEntity
-import com.example.movie.domain.model.Movie
 import com.example.movie.domain.helpers.DataState
+import com.example.movie.domain.model.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +17,10 @@ data class MovieUiState(
     val data: List<MovieUiData>,
     val showData: Boolean = false,
     val showError: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val pageMovie: Int = 1,
+    val errorNextPage: Boolean = false,
+    val loadingNextPage: Boolean = false
 )
 
 data class MovieUiData(
@@ -42,7 +45,7 @@ class MovieListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            remoteRepository.getMovie().collect(::getMovie)
+            remoteRepository.getMovie(_uiState.value.pageMovie).collect(::getMovie)
         }
     }
 
@@ -92,16 +95,63 @@ class MovieListViewModel @Inject constructor(
 
     }
 
-    fun retry(){
+    fun retry() {
         viewModelScope.launch {
-            remoteRepository.getMovie().collect(::getMovie)
+            remoteRepository.getMovie(_uiState.value.pageMovie).collect(::getMovie)
+        }
+    }
+
+    fun getMoreMovies() {
+        viewModelScope.launch {
+            val updateList = mutableListOf<MovieUiData>()
+            val currentList = _uiState.value.data
+            val nexPage = _uiState.value.pageMovie + 1
+            val n =1
+
+            remoteRepository.getMovie(nexPage).collect { state ->
+                when (state) {
+                    is DataState.Data -> {
+
+                        val optionUi = state.data.map {
+                            MovieUiData(
+                                id = it.id,
+                                title = it.title,
+                                releaseDate = it.releaseDate,
+                                overview = it.overview,
+                                backdropPath = it.posterPath,
+                                isFavorite = false
+                            )
+                        }
+
+                        updateList.addAll(currentList)
+                        updateList.addAll(optionUi)
+
+                        _uiState.value = _uiState.value.copy(
+                            data = updateList,
+                            errorNextPage = false,
+                            loadingNextPage = false,
+                            pageMovie = nexPage
+                        )
+                    }
+
+                    is DataState.Error -> {
+                        _uiState.value =
+                            _uiState.value.copy(errorNextPage = true, loadingNextPage = false)
+                    }
+
+                    is DataState.Loading -> {
+                        _uiState.value =
+                            _uiState.value.copy(errorNextPage = false, loadingNextPage = true)
+                    }
+                }
+            }
         }
     }
 
     private fun updateFavorite() {
         viewModelScope.launch {
-            localRepository.getAllFavorites().collect {favoriteList ->
-                val favoriteIds : List<Int> = favoriteList?.map { it.id } ?: emptyList()
+            localRepository.getAllFavorites().collect { favoriteList ->
+                val favoriteIds: List<Int> = favoriteList.map { it.id } ?: emptyList()
                 val updateList = _uiState.value.data.map {
                     MovieUiData(
                         id = it.id,

@@ -13,11 +13,11 @@ import java.util.Locale
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(private val service: MovieService) : MovieRepository {
-    override fun getMovie(): Flow<DataState<List<Movie>>> = flow {
+    override fun getMovie(page:Int): Flow<DataState<List<Movie>>> = flow {
         emit(DataState.Loading(loadingState = LoadingState.Loading))
         delay(2000)
         try {
-            val results = service.getPopularMovie().results
+            val results = service.getPopularMovie(page).results
             val movie = results.map { movie ->
                 Movie(
                     id = movie.id,

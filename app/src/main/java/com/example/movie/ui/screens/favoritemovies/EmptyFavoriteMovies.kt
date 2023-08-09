@@ -24,30 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.movie.R
 
 @Composable
-fun EmptyFavoriteMovies(goToMovieList: () -> Unit) {
-    Column {
-        TopAppBar(
-            backgroundColor = MaterialTheme.colors.primary,
-            navigationIcon = {
-                IconButton(onClick = { goToMovieList() }) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back for movie list"
-                    )
-                }
-            },
-            title = { Text(text = "Favorites") },
-            actions = {
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search favorite movie"
-                    )
-                }
-            }
-        )
-
-    }
+fun EmptyFavoriteMovies(messageError:String) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,7 +36,7 @@ fun EmptyFavoriteMovies(goToMovieList: () -> Unit) {
             contentDescription = "Empty list"
         )
         Text(
-            text = "Você ainda tem não tem favoritos !",
+            text = messageError,
             fontSize = 26.sp,
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center
@@ -70,7 +47,5 @@ fun EmptyFavoriteMovies(goToMovieList: () -> Unit) {
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewEmpty() {
-    EmptyFavoriteMovies {
-
-    }
+    EmptyFavoriteMovies("Error")
 }
