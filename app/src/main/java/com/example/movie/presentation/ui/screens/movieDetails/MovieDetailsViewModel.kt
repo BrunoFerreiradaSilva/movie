@@ -56,6 +56,12 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun retry(){
+        viewModelScope.launch {
+            movieDetailUseCase.invoke(movieId).collect(::getMovieDetail)
+        }
+    }
+
     private fun getMovieDetail(state: DataState<MovieDetailsResponse>) {
         when (state) {
             is DataState.Data -> {

@@ -17,8 +17,10 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movie.R
 import com.valentinilk.shimmer.shimmer
 
 @Preview(showSystemUi = true)
@@ -31,7 +33,7 @@ fun MovieDetailsLoadingScreen(backgroundShimmer: Color = Color.LightGray.copy(al
                 IconButton(onClick = { }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back for movie list"
+                        contentDescription = stringResource(id = R.string.content_back_for_movie_list)
                     )
                 }
             },
@@ -46,7 +48,7 @@ fun MovieDetailsLoadingScreen(backgroundShimmer: Color = Color.LightGray.copy(al
             },
             actions = {
                 IconButton(onClick = {}) {
-                    Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "no favorite icon", tint = Color.Red)
+                    Icon(imageVector = Icons.Default.FavoriteBorder, contentDescription = "", tint = Color.Red)
                 }
             }
         )

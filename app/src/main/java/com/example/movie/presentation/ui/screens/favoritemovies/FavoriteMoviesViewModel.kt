@@ -2,6 +2,8 @@ package com.example.movie.presentation.ui.screens.favoritemovies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie.R
+import com.example.movie.data.repository.favorite.FavoriteMovieRepository
 import com.example.movie.domain.usecase.FavoriteSaveUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,12 +38,12 @@ class FavoriteMoviesViewModel @Inject constructor(private val favoriteSaveUseCas
 
     init {
         viewModelScope.launch {
-            favoriteSaveUseCase.getAllFavorites().collect {
-                if (it.isEmpty()) {
+            favoriteSaveUseCase.getAllFavorites().collect {favoriteList ->
+                if (favoriteList.isEmpty()) {
                     _uiState.value =
                         _uiState.value.copy(messageError = "Você ainda não tem nenhum favorito !")
                 }
-                _uiState.value = _uiState.value.copy(favoriteMovie = it)
+                _uiState.value = _uiState.value.copy(favoriteMovie = favoriteList)
             }
         }
     }
@@ -57,12 +59,12 @@ class FavoriteMoviesViewModel @Inject constructor(private val favoriteSaveUseCas
 
     fun searchMovie(title: String) {
         viewModelScope.launch {
-            favoriteSaveUseCase.searchInFavorite(title).collect {
-                if (it.isEmpty()) {
+            favoriteSaveUseCase.searchInFavorite(title).collect {favoriteList ->
+                if (favoriteList.isEmpty()) {
                     _uiState.value =
                         _uiState.value.copy(messageError = "Não foi possivel encontrar o filme.")
                 }
-                _uiState.value = _uiState.value.copy(favoriteMovie = it)
+                _uiState.value = _uiState.value.copy(favoriteMovie = favoriteList)
             }
         }
     }

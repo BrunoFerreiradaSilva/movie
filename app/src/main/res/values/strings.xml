@@ -1,10 +1,25 @@
 <resources>
     <string name="app_name">movie</string>
-    <string name="movie">Movie Popular</string>
+    <string name="movie">Filme Popular</string>
+    <string name="details">Detalhes</string>
+    <string name="favorites">Favoritos</string>
     <string name="content_detail_screen">Go to favorite screen</string>
     <string name="content_image">Backdrop image</string>
     <string name="content_error">Error loading list</string>
+    <string name="content_error_detail">Error loading detail</string>
     <string name="error_could_not_load">Não foi possivel carregar</string>
     <string name="error_could_not_load_movie_list">Não foi possivel carregar a lista de filmes"</string>
     <string name="retry_button_text">Retry</string>
+    <string name="content_back_for_movie_list">Back for movie list</string>
+    <string name="content_image_detail">image poster detail</string>
+    <string name="release_data_movie">Release Data: %1$s</string>
+    <string name="error_get_detail">Error ao pegar detalhes</string>
+    <string name="no_favorite_message">Você ainda não tem nenhum favorito !</string>
+    <string name="content_search">Search favorite movie</string>
+    <string name="content_close_search">Close search</string>
+    <string name="search_text">Search</string>
+    <string name="content_image_favorite">Backdrop image favorite</string>
+    <string name="content_empty_list">Empty List</string>
+    <string name="no_favorite_icon">No favorite icon</string>
+    <string name="favorite_icon">Favorite icon</string>
 </resources>

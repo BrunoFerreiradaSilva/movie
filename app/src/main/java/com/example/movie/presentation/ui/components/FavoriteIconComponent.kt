@@ -17,7 +17,7 @@ fun FavoriteIcon(isFavorite: Boolean, favoriteMovie: () -> Unit) {
     if (isFavorite){
         Icon(
             imageVector = Icons.Default.Favorite,
-            contentDescription = "favorite",
+            contentDescription = "Favorite icon",
             modifier = Modifier
                 .padding(6.dp)
                 .clickable {
@@ -28,7 +28,7 @@ fun FavoriteIcon(isFavorite: Boolean, favoriteMovie: () -> Unit) {
     }else {
         Icon(
             imageVector = Icons.Default.FavoriteBorder,
-            contentDescription = "favorite",
+            contentDescription = "No favorite icon",
             modifier = Modifier
                 .padding(6.dp)
                 .clickable {

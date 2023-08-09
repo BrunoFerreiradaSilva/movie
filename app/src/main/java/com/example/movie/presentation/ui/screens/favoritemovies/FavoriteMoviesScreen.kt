@@ -29,6 +29,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.movie.R
 import com.example.movie.domain.helpers.PATH_IMAGE
 
 @Composable
@@ -70,7 +72,7 @@ fun FavoriteMoviesScreen(goToMovieList: () -> Unit) {
                         Row(Modifier.fillMaxSize()) {
                             AsyncImage(
                                 model = PATH_IMAGE + item.backgroundPath,
-                                contentDescription = "imageMovie"
+                                contentDescription = stringResource(id = R.string.content_image_favorite)
                             )
                             Column {
                                 Row {
@@ -133,16 +135,16 @@ fun AppBarTransform(
                 IconButton(onClick = { goToMovieList() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Back for movie list"
+                        contentDescription = stringResource(id = R.string.content_back_for_movie_list)
                     )
                 }
             },
-            title = { Text(text = "Favorites") },
+            title = { Text(text = stringResource(id = R.string.favorites)) },
             actions = {
                 IconButton(onClick = { if (favoriteIsNotEmpty) openSearchField() }) {
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search favorite movie",
+                        contentDescription = stringResource(id = R.string.content_search),
                     )
                 }
             }
@@ -160,7 +162,7 @@ fun AppBarTransform(
                         trailingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Close,
-                                contentDescription = "Close",
+                                contentDescription = stringResource(id = R.string.content_close_search),
                                 tint = Color.Black,
                                 modifier = Modifier.clickable {
                                     if (textValue.value.text.isNotEmpty()) {
@@ -172,7 +174,7 @@ fun AppBarTransform(
                                 }
                             )
                         },
-                        placeholder = { Text(text = "Search", color = Color.Black) }
+                        placeholder = { Text(text = stringResource(id = R.string.search_text), color = Color.Black) }
                     )
                 }
             }

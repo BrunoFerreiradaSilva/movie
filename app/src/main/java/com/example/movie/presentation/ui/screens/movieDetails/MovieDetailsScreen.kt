@@ -15,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.movie.R
 import com.example.movie.domain.helpers.PATH_IMAGE
 import com.example.movie.presentation.ui.components.FavoriteIcon
 
@@ -33,7 +35,7 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
     }
 
     if (state.showError) {
-        MovieDetailsErrorState()
+        MovieDetailsErrorState(viewModel::retry)
     }
 
     if (state.showData) {
@@ -44,7 +46,7 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
                     IconButton(onClick = { goToMovieList() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back for movie list"
+                            contentDescription = stringResource(id = R.string.content_back_for_movie_list)
                         )
                     }
                 },
@@ -69,7 +71,7 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
             )
             AsyncImage(
                 model = PATH_IMAGE + state.movieDetail?.backgroundPath,
-                contentDescription = "image poster detail",
+                contentDescription = stringResource(id = R.string.content_image_detail),
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -81,13 +83,15 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
                 )
             }
 
-
-            Text(
-                text = "Release Data: ${state.movieDetail?.releaseDate}",
-                modifier = Modifier.padding(
-                    start = 8.dp
+            state.movieDetail?.let {
+                Text(
+                    text = stringResource(id = R.string.release_data_movie, it.releaseDate),
+                    modifier = Modifier.padding(
+                        start = 8.dp
+                    )
                 )
-            )
+            }
+
 
             Row() {
                 state.movieDetail?.genre?.forEach { genre ->
