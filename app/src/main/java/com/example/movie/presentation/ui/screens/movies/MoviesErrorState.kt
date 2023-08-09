@@ -76,3 +76,12 @@ fun MoviesErrorState(retry: () -> Unit) {
         }
     }
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun ErrorStatePreview() {
+    MoviesErrorState {
+
+    }
+    
+}

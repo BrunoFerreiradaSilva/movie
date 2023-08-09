@@ -1,5 +1,10 @@
+
 package com.example.movie.presentation.ui.screens.movies
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,8 +15,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import com.example.movie.R
 import com.valentinilk.shimmer.shimmer
 
-@Preview(showSystemUi = true)
+
 @Composable
-fun LoadingState() {
+fun LoadingState(stateAnimation:Boolean) {
     Column {
         TopAppBar(
             backgroundColor = colorResource(id = R.color.purple_500),
@@ -48,32 +51,48 @@ fun LoadingState() {
                 }
             }
         )
-        LazyVerticalGrid(columns = GridCells.Fixed(2)) {
-            (0..5).toList().forEach { _ ->
-                item {
-                    Card(
-                        elevation = CardDefaults.cardElevation(2.dp),
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp, vertical = 6.dp),
-                        colors = CardDefaults.cardColors(Color.White)
-                    ) {
-                        Spacer(
+        AnimatedVisibility(visible = stateAnimation, exit = fadeOut()) {
+            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                (0..5).toList().forEach { _ ->
+                    item {
+                        Card(
+                            elevation = CardDefaults.cardElevation(2.dp),
                             modifier = Modifier
-                                .size(200.dp)
-                                .shimmer()
-                                .background(Color.LightGray.copy(alpha = 0.5f))
-                        )
-                        Spacer(
-                            modifier = Modifier
-                                .shimmer()
-                                .padding(6.dp)
-                                .fillMaxWidth()
-                                .size(16.dp)
-                                .background(Color.LightGray.copy(alpha = 0.5f))
-                        )
+                                .padding(horizontal = 8.dp, vertical = 6.dp),
+                            colors = CardDefaults.cardColors(Color.White)
+                        ) {
+                            Spacer(
+                                modifier = Modifier
+                                    .size(200.dp)
+                                    .shimmer()
+                                    .background(Color.LightGray.copy(alpha = 0.5f))
+                            )
+                            Spacer(
+                                modifier = Modifier
+                                    .shimmer()
+                                    .padding(6.dp)
+                                    .fillMaxWidth()
+                                    .size(16.dp)
+                                    .background(Color.LightGray.copy(alpha = 0.5f))
+                            )
+                        }
                     }
                 }
             }
         }
+
     }
+}
+
+@Preview
+@Composable
+fun LoadingStateTrue() {
+    LoadingState(stateAnimation = true)
+}
+
+
+@Preview
+@Composable
+fun LoadingStateFalse() {
+    LoadingState(stateAnimation = false)
 }

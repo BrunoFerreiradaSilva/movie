@@ -2,6 +2,9 @@ package com.example.movie.presentation.ui.screens.movies
 
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,12 +22,9 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -51,8 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.movie.domain.helpers.PATH_IMAGE
 import com.example.movie.R
+import com.example.movie.domain.helpers.PATH_IMAGE
 import com.example.movie.presentation.ui.components.FavoriteIcon
 import kotlinx.coroutines.flow.distinctUntilChanged
 
@@ -64,29 +64,27 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
 
     val lazyListState = rememberLazyListState()
 
-    if (state.isLoading) {
-        LoadingState()
-    }
+    LoadingState(state.isLoading)
 
     if (state.showError) {
         MoviesErrorState(viewModel::retry)
     }
 
-    if (state.showData) {
-        Column {
-            TopAppBar(
-                backgroundColor = colorResource(id = R.color.purple_500),
-                title = { Text(text = stringResource(id = R.string.movie), color = Color.White) },
-                actions = {
-                    IconButton(onClick = { goToFavorites() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_bookmark),
-                            contentDescription = stringResource(id = R.string.content_detail_screen),
-                            tint = Color.White
-                        )
-                    }
+    Column {
+        TopAppBar(
+            backgroundColor = colorResource(id = R.color.purple_500),
+            title = { Text(text = stringResource(id = R.string.movie), color = Color.White) },
+            actions = {
+                IconButton(onClick = { goToFavorites() }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_bookmark),
+                        contentDescription = stringResource(id = R.string.content_detail_screen),
+                        tint = Color.White
+                    )
                 }
-            )
+            }
+        )
+        AnimatedVisibility(visible = state.showData, enter = fadeIn(), exit = slideOutHorizontally()) {
             LazyVerticalGrid(columns = GridCells.Fixed(2)) {
                 items(state.data) { item ->
                     Card(
@@ -114,7 +112,7 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                                 overflow = TextOverflow.Ellipsis
                             )
 
-                            FavoriteIcon(isFavorite= item.isFavorite) {
+                            FavoriteIcon(isFavorite = item.isFavorite) {
                                 if (item.isFavorite) {
                                     viewModel.removeFavorite(item.id)
                                 } else {
