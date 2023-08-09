@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movie.R
@@ -30,12 +31,12 @@ fun LoadingState() {
     Column {
         TopAppBar(
             backgroundColor = MaterialTheme.colors.primary,
-            title = { Text(text = "Movie") },
+            title = { Text(text = stringResource(id = R.string.movie)) },
             actions = {
                 IconButton(onClick = {}) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_bookmark),
-                        contentDescription = "Go to favorite screen"
+                        contentDescription = ""
                     )
                 }
             }

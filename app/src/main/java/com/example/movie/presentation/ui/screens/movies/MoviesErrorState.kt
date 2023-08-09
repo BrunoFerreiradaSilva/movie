@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,12 +34,12 @@ fun MoviesErrorState(retry: () -> Unit) {
     Column {
         TopAppBar(
             backgroundColor = MaterialTheme.colors.primary,
-            title = { Text(text = "Movie") },
+            title = { Text(text = stringResource(id = R.string.movie)) },
             actions = {
                 IconButton(onClick = {}) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_bookmark),
-                        contentDescription = "Go to favorite screen"
+                        contentDescription = ""
                     )
                 }
             }
@@ -50,12 +51,12 @@ fun MoviesErrorState(retry: () -> Unit) {
         ) {
             Image(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Error",
+                contentDescription = stringResource(id = R.string.content_error),
                 modifier = Modifier.size(100.dp),
                 colorFilter = ColorFilter.tint(Color.Red)
             )
             Text(
-                text = "Não foi possivel carregar a lista de filmes",
+                text = stringResource(id = R.string.error_could_not_load_movie_list),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
@@ -63,7 +64,7 @@ fun MoviesErrorState(retry: () -> Unit) {
             )
             Spacer(modifier = Modifier.size(60.dp))
             Button(onClick = { retry() }) {
-                Text(text = "Retry")
+                Text(text = stringResource(id = R.string.retry_button_text))
             }
         }
 
