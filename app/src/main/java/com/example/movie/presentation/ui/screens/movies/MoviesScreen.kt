@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -71,12 +72,12 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
         Column() {
             TopAppBar(
                 backgroundColor = MaterialTheme.colors.primary,
-                title = { androidx.compose.material.Text(text = "Movie") },
+                title = { androidx.compose.material.Text(text = stringResource(id = R.string.movie)) },
                 actions = {
                     IconButton(onClick = { goToFavorites() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_bookmark),
-                            contentDescription = "Go to favorite screen"
+                            contentDescription = stringResource(id = R.string.content_detail_screen)
                         )
                     }
                 }
@@ -90,7 +91,7 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                     ) {
                         AsyncImage(
                             model = PATH_IMAGE + item.backdropPath,
-                            contentDescription = "imageMovie",
+                            contentDescription = stringResource(id = R.string.content_image),
                             modifier = Modifier
                                 .size(200.dp)
                                 .clickable { goToDetailsMovie(item.id) },
@@ -146,14 +147,14 @@ fun ErrorGetNextPage(action: () -> Unit) {
         ) {
             Image(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Error",
+                contentDescription = stringResource(id = R.string.content_error),
                 colorFilter = ColorFilter.tint(
                     Color.Red
                 )
             )
-            Text(text = "Não foi possivel carregar")
+            Text(text = stringResource(id = R.string.error_could_not_load))
             OutlinedButton(onClick = { action() }, modifier = Modifier.padding(start = 8.dp)) {
-                Text(text = "Retry")
+                Text(text = stringResource(id = R.string.retry_button_text))
             }
         }
 

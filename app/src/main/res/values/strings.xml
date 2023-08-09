@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">movie</string>
+    <string name="movie">Movie Popular</string>
+    <string name="content_detail_screen">Go to favorite screen</string>
+    <string name="content_image">Backdrop image</string>
+    <string name="content_error">Error loading list</string>
+    <string name="error_could_not_load">Não foi possivel carregar</string>
+    <string name="retry_button_text">Retry</string>
 </resources>
