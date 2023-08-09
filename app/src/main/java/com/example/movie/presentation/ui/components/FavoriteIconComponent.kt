@@ -9,15 +9,17 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movie.R
 
 @Composable
 fun FavoriteIcon(isFavorite: Boolean, favoriteMovie: () -> Unit) {
     if (isFavorite){
         Icon(
             imageVector = Icons.Default.Favorite,
-            contentDescription = "Favorite icon",
+            contentDescription = stringResource(id = R.string.favorites),
             modifier = Modifier
                 .padding(6.dp)
                 .clickable {
@@ -28,7 +30,7 @@ fun FavoriteIcon(isFavorite: Boolean, favoriteMovie: () -> Unit) {
     }else {
         Icon(
             imageVector = Icons.Default.FavoriteBorder,
-            contentDescription = "No favorite icon",
+            contentDescription = stringResource(id = R.string.no_favorite_icon),
             modifier = Modifier
                 .padding(6.dp)
                 .clickable {
