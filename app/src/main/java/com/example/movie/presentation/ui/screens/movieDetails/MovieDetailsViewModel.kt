@@ -3,13 +3,13 @@ package com.example.movie.presentation.ui.screens.movieDetails
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie.data.entity.FavoriteMovieEntity
 import com.example.movie.data.repository.movie.MovieRepository
 import com.example.movie.data.response.MovieDetailsResponse
 import com.example.movie.domain.helpers.DataState
 import com.example.movie.domain.helpers.MOVIE_ID_INTENT
 import com.example.movie.domain.model.Genre
 import com.example.movie.domain.usecase.FavoriteUseCase
+import com.example.movie.domain.usecase.MovieDetailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,8 +37,8 @@ data class MovieDetailUiData(
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val remoteRepository: MovieRepository,
-    private val useCase: FavoriteUseCase
+    private val movieDetailUseCase: MovieDetailUseCase,
+    private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
 
     private val movieId: Int = checkNotNull(savedStateHandle[MOVIE_ID_INTENT])
@@ -52,7 +52,7 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            remoteRepository.getMovieDetail(movieId).collect(::getMovieDetail)
+            movieDetailUseCase.invoke(movieId).collect(::getMovieDetail)
         }
     }
 
@@ -101,7 +101,7 @@ class DetailViewModel @Inject constructor(
 
     private fun updateFavorite() {
         viewModelScope.launch {
-            useCase.updateFavorite(_uiState.value.movieDetail?.id).collect { isFavorite ->
+            favoriteUseCase.updateFavorite(_uiState.value.movieDetail?.id).collect { isFavorite ->
                 _uiState.value = _uiState.value.copy(isFavorite = isFavorite)
             }
         }
@@ -109,13 +109,13 @@ class DetailViewModel @Inject constructor(
 
     fun favoriteMovie(movieDetail: MovieDetailUiData) {
         viewModelScope.launch {
-            useCase.favoriteMovie(movieDetail = movieDetail)
+            favoriteUseCase.favoriteMovie(movieDetail = movieDetail)
         }
     }
 
     fun removeFavorite(movieId: Int) {
         viewModelScope.launch {
-            useCase.deleteFavorite(movieId)
+            favoriteUseCase.deleteFavorite(movieId)
         }
     }
 }

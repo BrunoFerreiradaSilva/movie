@@ -7,6 +7,7 @@ import com.example.movie.data.repository.movie.MovieRepository
 import com.example.movie.domain.helpers.DataState
 import com.example.movie.domain.model.Movie
 import com.example.movie.domain.usecase.FavoriteUseCase
+import com.example.movie.domain.usecase.MovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +36,7 @@ data class MovieUiData(
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    private val remoteRepository: MovieRepository,
+    private val movieUseCase: MovieUseCase,
     private val favoriteUseCase: FavoriteUseCase
 ) : ViewModel() {
 
@@ -46,7 +47,7 @@ class MovieListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            remoteRepository.getMovie(_uiState.value.pageMovie).collect(::getMovie)
+            movieUseCase.invoke(_uiState.value.pageMovie).collect(::getMovie)
         }
     }
 
@@ -98,7 +99,7 @@ class MovieListViewModel @Inject constructor(
 
     fun retry() {
         viewModelScope.launch {
-            remoteRepository.getMovie(_uiState.value.pageMovie).collect(::getMovie)
+            movieUseCase.invoke(_uiState.value.pageMovie).collect(::getMovie)
         }
     }
 
@@ -108,7 +109,7 @@ class MovieListViewModel @Inject constructor(
             val currentList = _uiState.value.data
             val nexPage = _uiState.value.pageMovie + 1
 
-            remoteRepository.getMovie(nexPage).collect { state ->
+            movieUseCase.invoke(nexPage).collect { state ->
                 when (state) {
                     is DataState.Data -> {
 

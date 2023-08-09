@@ -2,7 +2,7 @@ package com.example.movie.presentation.ui.screens.favoritemovies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie.data.repository.favorite.FavoriteMovieRepository
+import com.example.movie.domain.usecase.FavoriteSaveUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +24,7 @@ data class FavoriteMovieUiData(
 )
 
 @HiltViewModel
-class FavoriteMoviesViewModel @Inject constructor(private val repository: FavoriteMovieRepository) :
+class FavoriteMoviesViewModel @Inject constructor(private val favoriteSaveUseCase: FavoriteSaveUseCase) :
     ViewModel() {
 
     private val _uiState: MutableStateFlow<FavoriteMovieUiState> =
@@ -36,19 +36,12 @@ class FavoriteMoviesViewModel @Inject constructor(private val repository: Favori
 
     init {
         viewModelScope.launch {
-            repository.getAllFavorites().collect { listFavorite ->
-                val favoriteMovieUiState = listFavorite.map { favorite ->
-                    FavoriteMovieUiData(
-                        title = favorite.title,
-                        overview = favorite.overview,
-                        backgroundPath = favorite.backdropPath,
-                        releaseDate = favorite.releaseDate
-                    )
+            favoriteSaveUseCase.getAllFavorites().collect {
+                if (it.isEmpty()) {
+                    _uiState.value =
+                        _uiState.value.copy(messageError = "Você ainda não tem nenhum favorito !")
                 }
-                if (favoriteMovieUiState.isEmpty()){
-                    _uiState.value = _uiState.value.copy(messageError = "Você ainda não tem nenhum favorito !")
-                }
-                _uiState.value = _uiState.value.copy(favoriteMovie = favoriteMovieUiState)
+                _uiState.value = _uiState.value.copy(favoriteMovie = it)
             }
         }
     }
@@ -64,19 +57,12 @@ class FavoriteMoviesViewModel @Inject constructor(private val repository: Favori
 
     fun searchMovie(title: String) {
         viewModelScope.launch {
-            repository.searchMovie(title).collect {
-                val searchMovie = it.map { favoriteMovieEntity ->
-                    FavoriteMovieUiData(
-                        title = favoriteMovieEntity.title,
-                        overview = favoriteMovieEntity.overview,
-                        backgroundPath = favoriteMovieEntity.backdropPath,
-                        releaseDate = favoriteMovieEntity.releaseDate
-                    )
+            favoriteSaveUseCase.searchInFavorite(title).collect {
+                if (it.isEmpty()) {
+                    _uiState.value =
+                        _uiState.value.copy(messageError = "Não foi possivel encontrar o filme.")
                 }
-                if (searchMovie.isEmpty()){
-                    _uiState.value = _uiState.value.copy(messageError = "Não foi possivel encontrar o filme.")
-                }
-                _uiState.value = _uiState.value.copy(favoriteMovie = searchMovie)
+                _uiState.value = _uiState.value.copy(favoriteMovie = it)
             }
         }
     }
