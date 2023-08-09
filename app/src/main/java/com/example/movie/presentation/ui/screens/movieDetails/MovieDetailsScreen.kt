@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,7 +48,8 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
                     IconButton(onClick = { goToMovieList() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(id = R.string.content_back_for_movie_list)
+                            contentDescription = stringResource(id = R.string.content_back_for_movie_list),
+                            tint = Color.White
                         )
                     }
                 },
@@ -56,7 +58,8 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
                         Text(
                             text = it,
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.White
                         )
                     }
                 },

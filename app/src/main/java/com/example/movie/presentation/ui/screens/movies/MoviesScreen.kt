@@ -73,12 +73,13 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
         Column {
             TopAppBar(
                 backgroundColor = colorResource(id = R.color.purple_500),
-                title = { Text(text = stringResource(id = R.string.movie), color = colorResource(id = R.color.black)) },
+                title = { Text(text = stringResource(id = R.string.movie), color = Color.White) },
                 actions = {
                     IconButton(onClick = { goToFavorites() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_bookmark),
-                            contentDescription = stringResource(id = R.string.content_detail_screen)
+                            contentDescription = stringResource(id = R.string.content_detail_screen),
+                            tint = Color.White
                         )
                     }
                 }

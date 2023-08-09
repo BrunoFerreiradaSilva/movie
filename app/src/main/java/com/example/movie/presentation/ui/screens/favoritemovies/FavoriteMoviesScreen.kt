@@ -143,16 +143,18 @@ fun AppBarTransform(
                 IconButton(onClick = { goToMovieList() }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = stringResource(id = R.string.content_back_for_movie_list)
+                        contentDescription = stringResource(id = R.string.content_back_for_movie_list),
+                        tint = Color.White
                     )
                 }
             },
-            title = { Text(text = stringResource(id = R.string.favorites)) },
+            title = { Text(text = stringResource(id = R.string.favorites), color = Color.White) },
             actions = {
                 IconButton(onClick = { if (favoriteIsNotEmpty) openSearchField() }) {
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = stringResource(id = R.string.content_search),
+                        tint = Color.White
                     )
                 }
             }

@@ -32,12 +32,18 @@ fun LoadingState() {
     Column {
         TopAppBar(
             backgroundColor = colorResource(id = R.color.purple_500),
-            title = { Text(text = stringResource(id = R.string.movie)) },
+            title = {
+                androidx.compose.material3.Text(
+                    text = stringResource(id = R.string.movie),
+                    color = Color.White
+                )
+            },
             actions = {
                 IconButton(onClick = {}) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_bookmark),
-                        contentDescription = ""
+                        contentDescription = stringResource(id = R.string.content_detail_screen),
+                        tint = Color.White
                     )
                 }
             }

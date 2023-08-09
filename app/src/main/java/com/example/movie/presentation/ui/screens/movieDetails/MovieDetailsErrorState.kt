@@ -40,12 +40,13 @@ fun MovieDetailsErrorState(action: () -> Unit) {
                 IconButton(onClick = { }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = stringResource(id = R.string.content_back_for_movie_list)
+                        contentDescription = stringResource(id = R.string.content_back_for_movie_list),
+                        tint = Color.White
                     )
                 }
             },
             title = {
-                Text(text = stringResource(id = R.string.details))
+                Text(text = stringResource(id = R.string.details), color = Color.White)
             },
             actions = {
                 IconButton(onClick = {}) {
