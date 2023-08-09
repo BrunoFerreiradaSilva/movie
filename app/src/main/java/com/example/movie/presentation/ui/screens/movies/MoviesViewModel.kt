@@ -3,7 +3,6 @@ package com.example.movie.presentation.ui.screens.movies
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie.data.entity.FavoriteMovieEntity
-import com.example.movie.data.repository.favorite.FavoriteMovieRepository
 import com.example.movie.data.repository.movie.MovieRepository
 import com.example.movie.domain.helpers.DataState
 import com.example.movie.domain.model.Movie
@@ -151,35 +150,15 @@ class MovieListViewModel @Inject constructor(
 
     private fun updateFavorite() {
         viewModelScope.launch {
-            favoriteUseCase.updateFavoriteMovie().collect { favoriteIds ->
-                val movieList = _uiState.value.data.map {
-                    val isFavorite = favoriteIds.contains(it.id)
-                    MovieUiData(
-                        id = it.id,
-                        title = it.title,
-                        backdropPath = it.backdropPath,
-                        overview = it.overview,
-                        releaseDate = it.releaseDate,
-                        isFavorite = isFavorite
-                    )
-                }
-                _uiState.value = _uiState.value.copy(data = movieList)
+            favoriteUseCase.updateFavorite(_uiState.value.data).collect { movieFavorite ->
+                _uiState.value = _uiState.value.copy(data = movieFavorite)
             }
-
         }
     }
 
     fun favoriteMovie(movieData: MovieUiData) {
         viewModelScope.launch {
-            val movie = FavoriteMovieEntity(
-                id = movieData.id,
-                title = movieData.title,
-                releaseDate = movieData.releaseDate,
-                overview = movieData.overview,
-                backdropPath = movieData.backdropPath,
-                isFavorite = movieData.isFavorite
-            )
-            favoriteUseCase.favoriteMovie(movie)
+            favoriteUseCase.favoriteMovie(movieData = movieData)
         }
     }
 

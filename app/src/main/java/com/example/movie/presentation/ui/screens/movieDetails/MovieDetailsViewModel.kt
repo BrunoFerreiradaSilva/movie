@@ -10,7 +10,6 @@ import com.example.movie.domain.helpers.DataState
 import com.example.movie.domain.helpers.MOVIE_ID_INTENT
 import com.example.movie.domain.model.Genre
 import com.example.movie.domain.usecase.FavoriteUseCase
-import com.example.movie.presentation.ui.screens.movies.MovieUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -102,8 +101,7 @@ class DetailViewModel @Inject constructor(
 
     private fun updateFavorite() {
         viewModelScope.launch {
-            useCase.updateFavoriteMovie().collect { favoritesIds ->
-                val isFavorite = favoritesIds.contains(_uiState.value.movieDetail?.id)
+            useCase.updateFavorite(_uiState.value.movieDetail?.id).collect { isFavorite ->
                 _uiState.value = _uiState.value.copy(isFavorite = isFavorite)
             }
         }
@@ -111,15 +109,7 @@ class DetailViewModel @Inject constructor(
 
     fun favoriteMovie(movieDetail: MovieDetailUiData) {
         viewModelScope.launch {
-            val movie = FavoriteMovieEntity(
-                id = movieDetail.id,
-                title = movieDetail.title,
-                releaseDate = movieDetail.releaseDate,
-                overview = movieDetail.overView,
-                backdropPath = movieDetail.backgroundPath,
-                isFavorite = movieDetail.isFavorite
-            )
-            useCase.favoriteMovie(movie = movie)
+            useCase.favoriteMovie(movieDetail = movieDetail)
         }
     }
 
