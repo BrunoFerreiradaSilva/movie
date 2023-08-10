@@ -1,5 +1,6 @@
 package com.example.movie.presentation.ui.screens.movieDetails
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,9 +11,14 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -30,6 +36,8 @@ import com.example.movie.presentation.ui.components.FavoriteIcon
 fun MovieDetailsScreen(goToMovieList: () -> Unit) {
     val viewModel = hiltViewModel<DetailViewModel>()
     val state by viewModel.uiState.collectAsState()
+
+    var visibility by remember { mutableStateOf(false) }
 
     if (state.isLoading) {
         MovieDetailsLoadingScreen()
@@ -63,13 +71,16 @@ fun MovieDetailsScreen(goToMovieList: () -> Unit) {
                     }
                 },
                 actions = {
-                    FavoriteIcon(isFavorite = state.isFavorite) {
+                    FavoriteIcon(
+                        icon = if (state.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    ) {
                         if (state.isFavorite) {
                             state.movieDetail?.id?.let { viewModel.removeFavorite(it) }
                         } else {
                             state.movieDetail?.let { viewModel.favoriteMovie(it) }
                         }
                     }
+
                 }
             )
 

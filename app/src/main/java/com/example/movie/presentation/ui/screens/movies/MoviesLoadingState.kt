@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -53,6 +54,9 @@ fun LoadingState(stateAnimation: Boolean) {
         )
         AnimatedVisibility(
             visible = stateAnimation,
+            enter = fadeIn(animationSpec = keyframes {
+                this.durationMillis = 300
+            }),
             exit = fadeOut(
                 animationSpec = keyframes {
                     this.durationMillis = 300

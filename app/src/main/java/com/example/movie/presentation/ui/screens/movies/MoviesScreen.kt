@@ -2,17 +2,18 @@ package com.example.movie.presentation.ui.screens.movies
 
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,6 +29,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,6 +41,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -58,7 +62,6 @@ import com.example.movie.R
 import com.example.movie.domain.helpers.PATH_IMAGE
 import com.example.movie.presentation.ui.components.FavoriteIcon
 import kotlinx.coroutines.flow.distinctUntilChanged
-
 
 @Composable
 fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) {
@@ -88,7 +91,11 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
             }
         )
         AnimatedVisibility(
-            visible = state.showData, enter = fadeIn(
+            visible = state.showData,
+            enter = fadeIn(animationSpec = keyframes {
+                this.durationMillis = 300
+            }),
+            exit = fadeOut(
                 animationSpec = keyframes {
                     this.durationMillis = 300
                 }
@@ -109,7 +116,7 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                                 .clickable { goToDetailsMovie(item.id) },
                             contentScale = ContentScale.FillBounds
                         )
-                        Row {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 text = item.title,
                                 modifier = Modifier
@@ -121,7 +128,9 @@ fun MovieListScreen(goToDetailsMovie: (Int) -> Unit, goToFavorites: () -> Unit) 
                                 overflow = TextOverflow.Ellipsis
                             )
 
-                            FavoriteIcon(isFavorite = item.isFavorite) {
+                            FavoriteIcon(
+                                icon = if (item.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            ) {
                                 if (item.isFavorite) {
                                     viewModel.removeFavorite(item.id)
                                 } else {
